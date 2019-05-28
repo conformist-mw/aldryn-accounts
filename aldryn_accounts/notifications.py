@@ -19,7 +19,7 @@ class Notification(object):
 def check_notifications(user):
     # TODO: caching/optimisation
     notifications = []
-    if user.is_anonymous():
+    if user.is_anonymous:
         return []
     if DISPLAY_EMAIL_NOTIFICATION:
         email_notification = check_email_verification(user)

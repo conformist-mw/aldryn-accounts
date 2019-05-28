@@ -32,7 +32,7 @@ class PermissionBackend(object):
     def has_perm(self, user_obj, perm, obj=None):
         # TODO: cache
         if perm == 'aldryn_accounts.has_verified_email':
-            if not user_obj or user_obj.is_anonymous():
+            if not user_obj or user_obj.is_anonymous:
                 return False
             return EmailAddress.objects.has_verified_email(user_obj)
         return False

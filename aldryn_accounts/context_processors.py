@@ -49,6 +49,6 @@ def empty_login_and_signup_forms(request):
 
 
 def notifications(request):
-    if request.user.is_anonymous():
+    if request.user.is_anonymous:
         return {}
     return {'account_notifications': check_notifications(request.user)}

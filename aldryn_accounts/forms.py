@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, PasswordResetForm as DjangoPasswordResetForm
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 from six.moves.urllib.parse import urlencode

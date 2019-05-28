@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.core.urlresolvers import NoReverseMatch
+from django.urls import NoReverseMatch
 from django.template.loader import render_to_string
 
 

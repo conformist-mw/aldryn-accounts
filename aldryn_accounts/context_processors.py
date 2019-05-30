@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth import get_backends
 from social_django.models import UserSocialAuth
 
+from .compatibility import is_authenticated, is_anonymous
 from .notifications import check_notifications
 from .utils import get_login_view, get_signup_view, user_display
 
@@ -34,10 +35,11 @@ def social_auth_info(request):
     # create accounts dictionary
     accounts = OrderedDict(list(zip(keys, [None] * len(keys))))
     user = request.user
-    if hasattr(user, 'is_authenticated') and user.is_authenticated():
-        for assoc in UserSocialAuth.get_social_auth_for_user(user):
-            assoc_provider = assoc.provider.replace('-', '_')
-            accounts[assoc_provider] = assoc
+    if hasattr(user, 'is_authenticated'):
+        if is_authenticated(user):
+            for assoc in UserSocialAuth.get_social_auth_for_user(user):
+                assoc_provider = assoc.provider.replace('-', '_')
+                accounts[assoc_provider] = assoc
     return {'social_auth': accounts}
 
 
@@ -49,6 +51,6 @@ def empty_login_and_signup_forms(request):
 
 
 def notifications(request):
-    if request.user.is_anonymous:
+    if is_anonymous(request.user):
         return {}
     return {'account_notifications': check_notifications(request.user)}

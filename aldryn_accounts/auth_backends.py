@@ -2,6 +2,7 @@
 import django
 from django.contrib.auth.backends import ModelBackend
 
+from .compatibility import is_anonymous
 from .models import EmailAddress
 from .utils import get_most_qualified_user_for_email_and_password
 
@@ -32,7 +33,7 @@ class PermissionBackend(object):
     def has_perm(self, user_obj, perm, obj=None):
         # TODO: cache
         if perm == 'aldryn_accounts.has_verified_email':
-            if not user_obj or user_obj.is_anonymous:
+            if not user_obj or is_anonymous(user_obj):
                 return False
             return EmailAddress.objects.has_verified_email(user_obj)
         return False

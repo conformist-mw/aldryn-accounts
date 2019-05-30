@@ -5,7 +5,11 @@ import emailit.api
 from django.contrib.sites.models import Site
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMultiAlternatives
-from django.urls import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    # Django <= 1.10
+    from django.core.urlresolvers import reverse
 from django.template import loader
 from django.utils import timezone
 from django.utils.encoding import force_text

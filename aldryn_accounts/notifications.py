@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
-from django.urls import NoReverseMatch
+try:
+    from django.urls import NoReverseMatch
+except ImportError:
+    # Django <= 1.10
+    from django.core.urlresolvers import NoReverseMatch
 from django.template.loader import render_to_string
 
+from .compatibility import is_anonymous
 
 DISPLAY_EMAIL_NOTIFICATION = getattr(
     settings, 'ALDRYN_ACCOUNTS_DISPLAY_EMAIL_NOTIFICATION', False)
@@ -19,7 +24,7 @@ class Notification(object):
 def check_notifications(user):
     # TODO: caching/optimisation
     notifications = []
-    if user.is_anonymous:
+    if is_anonymous(user):
         return []
     if DISPLAY_EMAIL_NOTIFICATION:
         email_notification = check_email_verification(user)

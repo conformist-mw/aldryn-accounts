@@ -1,0 +1,15 @@
+Django>=1.8
+django-annoying
+django-absolute
+django-appconf
+django-classy-tags
+django-class-based-auth-views @ git+https://github.com/softformance/django-class-based-auth-views@develop#egg=django-class-based-auth-views
+django-emailit
+django-sekizai
+social-auth-app-django
+django-standard-form
+django-timezone-field
+aldryn-common
+dj.chain
+pygeoip
+six

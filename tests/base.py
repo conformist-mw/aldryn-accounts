@@ -13,7 +13,11 @@ from cms.test_utils.testcases import CMSTestCase
 from cms.utils import get_cms_setting
 from django.conf import settings
 from django.core.cache import cache
-from django.core.urlresolvers import clear_url_caches
+try:
+    from django.urls import clear_url_caches
+except ImportError:
+    # Django <= 1.10
+    from django.core.urlresolvers import clear_url_caches
 
 from aldryn_accounts import cms_app
 

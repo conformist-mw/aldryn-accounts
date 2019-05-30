@@ -7,7 +7,11 @@ from django.contrib.auth import SESSION_KEY
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.core import mail
-from django.core.urlresolvers import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    # Django <= 1.10
+    from django.core.urlresolvers import reverse
 from django.test import override_settings
 from django.utils import unittest
 from django.utils.translation import override

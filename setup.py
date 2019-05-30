@@ -1,5 +1,14 @@
 from setuptools import find_packages, setup
 
+
+def read_requirements():
+    """Parse requirements from requirements.txt."""
+    reqs_path = 'requirements-setup.txt'
+    with open(reqs_path, 'r') as f:
+        requirements = [line.rstrip() for line in f]
+    return requirements
+
+
 setup(
     name='aldryn-accounts',
     version=__import__('aldryn_accounts').__version__,
@@ -10,23 +19,7 @@ setup(
     author='Divio AG',
     author_email='developers@divio.ch',
     packages=find_packages(),
-    install_requires=(
-        'Django>=1.8',
-        'django-annoying',
-        'django-absolute',
-        'django-appconf',
-        'django-classy-tags',
-        'django-class-based-auth-views>0.3',
-        'django-emailit',
-        'django-sekizai',
-        'social-auth-app-django',
-        'django-standard-form',
-        'django-timezone-field',
-        'aldryn-common',
-        'dj.chain',
-        'pygeoip',
-        'six',
-    ),
+    install_requires=read_requirements(),
     include_package_data=True,
     zip_safe=False,
     classifiers=[

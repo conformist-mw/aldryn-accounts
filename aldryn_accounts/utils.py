@@ -10,11 +10,13 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.crypto import random
 
+from .compatibility import is_anonymous
+
 logger = logging.getLogger('aldryn_accounts')
 
 
 def user_display(user, fallback_to_username=settings.ALDRYN_ACCOUNTS_USER_DISPLAY_FALLBACK_TO_USERNAME, fallback_to_pk=settings.ALDRYN_ACCOUNTS_USER_DISPLAY_FALLBACK_TO_PK):
-    if user.is_anonymous:
+    if is_anonymous(user):
         return 'Anonymous user'
     if user.email:
         return user.email

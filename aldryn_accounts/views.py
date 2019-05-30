@@ -23,7 +23,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 try:
-    from django.urls import reverse
+    from django.urls import reverse, reverse_lazy
 except ImportError:
     # Django <= 1.10
     from django.core.urlresolvers import reverse
@@ -308,37 +308,25 @@ class LogoutView(class_based_auth_views.views.LogoutView):
     template_name = 'aldryn_accounts/logout.html'
 
 
-def password_reset(request, *args, **kwargs):
-    kwargs.update({
-        'post_reset_redirect': 'aldryn_accounts:password_reset_done',
-        'template_name': 'aldryn_accounts/reset/password_reset_form.html',
-        'email_template_name': 'aldryn_accounts/reset/password_reset_email.html',
-        'subject_template_name': 'aldryn_accounts/reset/password_reset_subject.txt',
-        'password_reset_form': PasswordRecoveryResetForm,
-    })
-    return auth_views.password_reset(request, *args, **kwargs)
+class PasswordResetView(auth_views.PasswordResetView):
+    template_name = 'aldryn_accounts/reset/password_reset_form.html'
+    email_template_name = 'aldryn_accounts/reset/password_reset_email.html'
+    subject_template_name = 'aldryn_accounts/reset/password_reset_subject.txt'
+    form_class = PasswordRecoveryResetForm
+    success_url = reverse_lazy('aldryn_accounts:password_reset_done')
 
 
-def password_reset_done(request, *args, **kwargs):
-    kwargs.update({
-        'template_name': 'aldryn_accounts/reset/password_reset_done.html',
-    })
-    return auth_views.password_reset_done(request, *args, **kwargs)
+class PasswordResetDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'aldryn_accounts/reset/password_reset_done.html'
 
 
-def password_reset_confirm(request, *args, **kwargs):
-    kwargs.update({
-        'template_name': 'aldryn_accounts/reset/password_reset_confirm.html',
-        'post_reset_redirect': 'aldryn_accounts:password_reset_complete',
-    })
-    return auth_views.password_reset_confirm(request, *args, **kwargs)
+class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = 'aldryn_accounts/reset/password_reset_confirm.html'
+    success_url = reverse_lazy('aldryn_accounts:password_reset_complete')
 
 
-def password_reset_complete(request, *args, **kwargs):
-    kwargs.update({
-        'template_name': 'aldryn_accounts/reset/password_reset_complete.html',
-    })
-    return auth_views.password_reset_complete(request, *args, **kwargs)
+class PasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = 'aldryn_accounts/reset/password_reset_complete.html'
 
 
 class ConfirmEmailView(TemplateView):
